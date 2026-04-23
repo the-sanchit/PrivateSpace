@@ -8,7 +8,9 @@
 		<version>3.5.5</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.jovac-Project</groupId>
+	<!-- <groupId>com.jovac-Project</groupId> -->
+	<groupId>com.jovac.project</groupId>
+
 	<artifactId>safenote-project</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>safenote-project</name>
@@ -68,6 +70,11 @@
 			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+    <groupId>org.hibernate.validator</groupId>
+    <artifactId>hibernate-validator</artifactId>
+</dependency>
+
 	</dependencies>
 
 	<build>

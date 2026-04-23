@@ -15,7 +15,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/notes")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = {"http://localhost:3000", "http://127.0.0.1:3000"})
 public class NoteController {
 
     @Autowired
@@ -69,6 +69,32 @@ public class NoteController {
         } catch (Exception e) {
             return ResponseEntity.badRequest()
                     .body(Map.of("error", "Failed to delete note: " + e.getMessage()));
+        }
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateNote(@PathVariable Long id,
+                                        @RequestBody Map<String, String> body,
+                                        Authentication authentication) {
+        try {
+            String username = authentication.getName();
+            User currentUser = userRepository.findByUsername(username)
+                    .orElseThrow(() -> new RuntimeException("User not found"));
+            Note note = noteRepository.findById(id)
+                    .orElseThrow(() -> new RuntimeException("Note not found"));
+            if (!note.getUser().getId().equals(currentUser.getId())) {
+                return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                        .body(Map.of("error", "You can only edit your own notes"));
+            }
+            String newContent = body.get("content");
+            if (newContent == null || newContent.trim().isEmpty()) {
+                return ResponseEntity.badRequest().body(Map.of("error", "Content cannot be empty"));
+            }
+            note.setContent(newContent.trim());
+            return ResponseEntity.ok(noteRepository.save(note));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest()
+                    .body(Map.of("error", "Failed to update note: " + e.getMessage()));
         }
     }
 }

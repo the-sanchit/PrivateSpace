@@ -18,7 +18,6 @@ public class DataInitializer implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        // Check if users already exist to prevent duplicates
         if (userRepository.findByUsername("testuser").isEmpty()) {
             User user1 = new User();
             user1.setUsername("testuser");
@@ -27,7 +26,7 @@ public class DataInitializer implements CommandLineRunner {
             System.out.println("Test user created: testuser/password123");
         }
 
-        if (userRepository.findByUsername("demo").isEmpty()) {  // ✅ Added .isEmpty()
+        if (userRepository.findByUsername("demo").isEmpty()) {
             User user2 = new User();
             user2.setUsername("demo");
             user2.setPassword(passwordEncoder.encode("demo123"));

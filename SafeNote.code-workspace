@@ -1,0 +1,44 @@
+{
+  "folders": [
+    {
+      "name": "Backend (Spring Boot)",
+      "path": "_safenote-project/safenote-project"
+    },
+    {
+      "name": "Frontend (React)",
+      "path": "safenote-frontend"
+    }
+  ],
+  "settings": {
+    "java.compile.nullAnalysis.mode": "automatic",
+    "java.configuration.updateBuildConfiguration": "interactive"
+  },
+  "launch": {
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "type": "java",
+        "name": "Backend",
+        "request": "launch",
+        "mainClass": "com.jovac_Project.safenote_project.SafenoteProjectApplication",
+        "projectName": "safenote-project",
+        "cwd": "${workspaceFolder:Backend (Spring Boot)}"
+      },
+      {
+        "type": "node",
+        "name": "Frontend",
+        "request": "launch",
+        "runtimeExecutable": "npm",
+        "runtimeArgs": ["start"],
+        "cwd": "${workspaceFolder:Frontend (React)}",
+        "console": "integratedTerminal"
+      }
+    ],
+    "compounds": [
+      {
+        "name": "Full Stack",
+        "configurations": ["Backend", "Frontend"]
+      }
+    ]
+  }
+}

@@ -4,6 +4,7 @@ import com.jovac_Project.safenote_project.entity.User;
 import com.jovac_Project.safenote_project.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,7 +13,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/auth")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = {"http://localhost:3000", "http://127.0.0.1:3000"})
 public class UserController {
 
     @Autowired
@@ -57,6 +58,14 @@ public class UserController {
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(createErrorResponse("Registration failed: " + e.getMessage()));
         }
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<?> me(Authentication authentication) {
+        return ResponseEntity.ok(Map.of(
+            "username", authentication.getName(),
+            "success", true
+        ));
     }
 
     private Map<String, Object> createErrorResponse(String message) {

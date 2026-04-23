@@ -2,6 +2,9 @@ package com.jovac_Project.safenote_project.entity;
 
 import jakarta.persistence.*;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import org.hibernate.annotations.CreationTimestamp;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "notes")
@@ -14,12 +17,15 @@ public class Note {
     @Column(nullable = false, columnDefinition = "TEXT")
     private String content;
 
+    @Column(name = "created_at", updatable = false)
+    @CreationTimestamp
+    private LocalDateTime createdAt;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
-    @JsonBackReference  // ✅ Add this annotation
+    @JsonBackReference
     private User user;
 
-    // Constructors, getters, and setters remain the same...
     public Note() {}
 
     public Note(String content) {
@@ -45,6 +51,14 @@ public class Note {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 
     public User getUser() {
